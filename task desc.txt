@@ -1,0 +1,11 @@
+Zadanie:
+
+Zautomatyzuj z wykorzystaniem języka Python proces informowania użytkownika (grupy użytkowników) o konieczności wykonania zadania w każdym nadchodzącym tygodniu.
+
+Informacje należy wysłać na adres mailowy użytkownika w wybrany dzień w tygodniu poprzedzającym. Poinformuj użytkownika w jakie dni będzie wykonywał zadanie oraz o ich łącznej liczbie.
+
+W załączeniu:
+
+- grafik (lista osób oraz przypisanie zadania w poszczególnym tygodniu)
+
+- wzór wysyłanego powiadomienia - 24_7 support - upcoming shift (zapisany jako gotowa wiadomość w outlooku, gdyby się nie otwierało, załączam screen wiadomości) – jest to symulacja, mail nie działa.
