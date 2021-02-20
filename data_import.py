@@ -36,7 +36,7 @@ def load_moc_and_engineers_info(excel_file: pd.ExcelFile):
 
 def load_moc_calendar(input_excel_file: pd.ExcelFile, num_of_moc: int):
     print("Loading MoC calendar")
-    moc_calendar_df = input_excel_file.parse(INPUT_SHEET_NAME, header=[2, 3, 4],
+    moc_calendar_df = input_excel_file.parse(INPUT_SHEET_NAME, header=[2, 4],
                                              index_col=0)
     # Drop first two columns
     moc_calendar_df.drop(moc_calendar_df.columns[[0, 1]], axis=1, inplace=True)

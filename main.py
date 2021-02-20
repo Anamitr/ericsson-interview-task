@@ -27,11 +27,6 @@ def get_month_name_from_date(date: datetime.date):
     return date.strftime("%B")
 
 
-def send_notifications():
-    pass
-    moc_info_df, engineer_df, moc_calendar_df, engineer_calendar_df = import_data()
-
-
 def get_next_week_engineer_df(current_date: datetime.date,
                               engineer_calendar_df: pd.DataFrame):
     next_week_date = current_date + datetime.timedelta(7)
@@ -44,8 +39,29 @@ def get_next_week_engineer_df(current_date: datetime.date,
                                   in range(0, 7)]
     next_week_engineer_df = pd.DataFrame(
         np.column_stack([next_week_engineer_lists]).T,
-        columns=next_week_engineer_headers)
+        columns=next_week_engineer_headers,
+        index=engineer_calendar_df.index).dropna()
     return next_week_engineer_df
+
+
+def get_next_week_moc_df(current_date: datetime.date, moc_calendar_df: pd.DataFrame):
+    next_week_date = current_date + datetime.timedelta(7)
+    next_week_moc_lists = [
+        moc_calendar_df[get_month_name_from_date(next_week_date +
+                                                 datetime.timedelta(i)),
+                        (next_week_date + datetime.timedelta(i)).day] for
+        i in range(0, 7)]
+    next_week_moc_headers = [(next_week_date + datetime.timedelta(i)) for i
+                                  in range(0, 7)]
+    next_week_moc_df = pd.DataFrame(
+        np.column_stack([next_week_moc_lists]).T,
+        columns=next_week_moc_headers,
+        index=moc_calendar_df.index).dropna()
+    return next_week_moc_df
+
+
+def send_notifications():
+    pass
 
 
 # get_date_stub()
@@ -57,12 +73,15 @@ print("Today is", WEEK_DAYS[current_date.weekday()])
 
 if current_date.weekday() == WEEK_DAYS.index(NOTIFICATION_WEEK_DAY):
     print("Sending notifications")
-    # send_notifications()
     moc_info_df, engineer_df, moc_calendar_df, engineer_calendar_df = import_data()
     next_week_engineer_df = get_next_week_engineer_df(current_date,
                                                       engineer_calendar_df)
-    # next_week_date = current_date + datetime.timedelta(7)
-    # current_month_name = get_month_name_from_date(current_date)
-    # engineer_calendar_df[current_month_name, current_date.day]
+    next_week_moc_df = get_next_week_moc_df(current_date, moc_calendar_df)
+
+    send_notifications()
+    engineer_list = [engineer for engineer in next_week_engineer_df.index]
+
+
+
 else:
     print("It's not a day for sending notification, which is", NOTIFICATION_WEEK_DAY)
