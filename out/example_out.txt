@@ -1,0 +1,44 @@
+Sending email to: engineer2@ericsson.com
+With topic: 27/7 support - upcoming shift
+With content:
+ Hi,
+
+According to the agreeement, You will be part of the 24/7 Support Team during next week.
+Your service days are: Saturday, Sunday
+Total number of days: 2
+
+Best regards,
+Admin
+Sending email to: engineer5@ericsson.com
+With topic: 27/7 support - upcoming shift
+With content:
+ Hi,
+
+According to the agreeement, You will be part of the 24/7 Support Team during next week.
+Your service days are: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+Total number of days: 7
+
+Best regards,
+Admin
+Sending email to: engineer15@ericsson.com
+With topic: 27/7 support - upcoming shift
+With content:
+ Hi,
+
+According to the agreeement, You will be part of the 24/7 Support Team during next week.
+Your service days are: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+Total number of days: 7
+
+Best regards,
+Admin
+Sending email to: engineer16@ericsson.com
+With topic: 27/7 support - upcoming shift
+With content:
+ Hi,
+
+According to the agreeement, You will be part of the 24/7 Support Team during next week.
+Your service days are: Monday, Tuesday, Wednesday, Thursday, Friday
+Total number of days: 5
+
+Best regards,
+Admin
