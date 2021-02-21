@@ -8,7 +8,7 @@ EMAIL_BEGINNING = "Hi,\n\n" \
                   "According to the agreeement, You will be part of the 24/7 " \
                   "Support Team during next week.\n"
 # EMAIL_BEGINNING = ""
-EMAIL_END = "Best regards,\nAdmin"
+EMAIL_END = "\nBest regards,\nAdmin"
 
 
 def send_notifications(next_week_engineers_schedule_df: pd.DataFrame,

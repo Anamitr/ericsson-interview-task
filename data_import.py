@@ -1,13 +1,33 @@
+import datetime
 import subprocess
 
+import numpy as np
 import pandas as pd
 
+from date_utils import get_month_name_from_date
 from unMergeExcelCell.unMergeExcelCell import unMergeExcelCell
+
+# from service_shift_notifier import engineer_df, moc_info_df
 
 INPUT_EXCEL_FILE_PATH = './input/grafik.xls'
 CONVERTED_EXCEL_FILE_PATH = './input/grafik_unmerged.xls'
 INPUT_SHEET_NAME = 'Schedule'
 HEADER_LENGTH = 3
+
+engineer_df: pd.DataFrame
+moc_info_df: pd.DataFrame
+
+
+def import_data():
+    global engineer_df, moc_info_df
+    print("Importing data")
+    input_excel_file = pd.ExcelFile(CONVERTED_EXCEL_FILE_PATH)
+    moc_info_df, engineer_df, engineer_begin_index = load_moc_and_engineers_info(
+        input_excel_file)
+    moc_calendar_df = load_moc_calendar(input_excel_file, len(moc_info_df))
+    engineer_calendar_df = load_engineer_calendar(input_excel_file,
+                                                  engineer_begin_index)
+    return moc_info_df, engineer_df, moc_calendar_df, engineer_calendar_df
 
 
 def find_engineer_begin_index(data_df: pd.DataFrame):
@@ -65,17 +85,6 @@ def load_engineer_calendar(input_excel_file: pd.ExcelFile,
     return engineer_calendar_df
 
 
-def import_data():
-    print("Importing data")
-    input_excel_file = pd.ExcelFile(CONVERTED_EXCEL_FILE_PATH)
-    moc_info_df, engineer_df, engineer_begin_index = load_moc_and_engineers_info(
-        input_excel_file)
-    moc_calendar_df = load_moc_calendar(input_excel_file, len(moc_info_df))
-    engineer_calendar_df = load_engineer_calendar(input_excel_file,
-                                                  engineer_begin_index)
-    return moc_info_df, engineer_df, moc_calendar_df, engineer_calendar_df
-
-
 def unmerge_excel_input_file():
     print("Unmerging excel input file")
     # Convert to xls
@@ -84,3 +93,60 @@ def unmerge_excel_input_file():
     # Unmerge cells
     unMergeExcelCell(INPUT_EXCEL_FILE_PATH)
     pass
+
+
+def get_next_week_engineers_schedule_df(current_date: datetime.date,
+                                        engineer_calendar_df: pd.DataFrame):
+    next_week_date = current_date + datetime.timedelta(7)
+    next_week_engineer_lists = [
+        engineer_calendar_df[get_month_name_from_date(next_week_date +
+                                                      datetime.timedelta(i)),
+                             (next_week_date + datetime.timedelta(i)).day] for
+        i in range(0, 7)]
+    next_week_engineer_headers = [(next_week_date + datetime.timedelta(i)) for i
+                                  in range(0, 7)]
+    next_week_engineer_schedule_df = pd.DataFrame(
+        np.column_stack([next_week_engineer_lists]).T,
+        columns=next_week_engineer_headers,
+        index=engineer_calendar_df.index).dropna(axis=0, how="all")
+    return next_week_engineer_schedule_df
+
+
+def get_next_week_moc_schedule_df(current_date: datetime.date,
+                                  moc_calendar_df: pd.DataFrame):
+    next_week_date = current_date + datetime.timedelta(7)
+    next_week_moc_lists = [
+        moc_calendar_df[get_month_name_from_date(next_week_date +
+                                                 datetime.timedelta(i)),
+                        (next_week_date + datetime.timedelta(i)).day] for
+        i in range(0, 7)]
+    next_week_moc_headers = [(next_week_date + datetime.timedelta(i)) for i
+                             in range(0, 7)]
+    next_week_moc_schedule_df = pd.DataFrame(
+        np.column_stack([next_week_moc_lists]).T,
+        columns=next_week_moc_headers,
+        index=moc_calendar_df.index).dropna()
+    return next_week_moc_schedule_df
+
+
+def get_next_week_moc_name(next_week_moc_df: pd.DataFrame):
+    next_week_moc_name = None
+    moc_list = [moc for moc in next_week_moc_df.index]
+    if len(moc_list) != 1:
+        print("Next week MoC list is not 1! Actual value:", len(moc_list))
+        exit(1)
+    else:
+        next_week_moc_name = moc_list[0]
+    return next_week_moc_name
+
+
+def get_next_week_engineers_and_moc(next_week_engineers_schedule_df: pd.DataFrame,
+                                    next_week_moc_schedule_df: pd.DataFrame):
+    next_week_engineer_name_list = [engineer for engineer in
+                                    next_week_engineers_schedule_df.index]
+    next_week_moc_name = get_next_week_moc_name(next_week_moc_schedule_df)
+    next_week_engineers_df = engineer_df.loc[
+        engineer_df['Name'].isin(next_week_engineer_name_list)]
+    next_week_moc_schedule_df = moc_info_df[
+        moc_info_df['Name'] == next_week_moc_name]
+    return next_week_engineers_df, next_week_moc_schedule_df
