@@ -54,15 +54,15 @@ def get_next_week_moc_name(next_week_moc_df: pd.DataFrame):
     return next_week_moc_name
 
 
-def get_next_week_engineers_and_moc(next_week_engineer_df: pd.DataFrame,
-                                    next_week_moc_df: pd.DataFrame):
+def get_next_week_engineers_and_moc(next_week_engineers_schedule_df: pd.DataFrame,
+                                    next_week_moc_schedule_df: pd.DataFrame):
     next_week_engineer_name_list = [engineer for engineer in
-                                    next_week_engineer_df.index]
-    next_week_moc_name = get_next_week_moc_name(next_week_moc_df)
+                                    next_week_engineers_schedule_df.index]
+    next_week_moc_name = get_next_week_moc_name(next_week_moc_schedule_df)
     next_week_engineers_df = engineer_df.loc[
         engineer_df['Name'].isin(next_week_engineer_name_list)]
-    next_week_moc_df = moc_info_df[moc_info_df['Name'] == next_week_moc_name]
-    return next_week_engineers_df, next_week_moc_df
+    next_week_moc_schedule_df = moc_info_df[moc_info_df['Name'] == next_week_moc_name]
+    return next_week_engineers_df, next_week_moc_schedule_df
 
 
 # get_date_stub()
