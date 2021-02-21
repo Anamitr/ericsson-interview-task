@@ -17,16 +17,18 @@ def send_notifications(next_week_engineers_schedule_df: pd.DataFrame,
                        next_week_engineers_df: pd.DataFrame,
                        next_week_moc_df: pd.DataFrame,
                        current_date: datetime.date = None):
+    next_week_moc_name = next_week_moc_df.reset_index().loc[0, "Name"]
     email_list = generate_emails(next_week_engineers_df,
                                  next_week_engineers_schedule_df,
-                                 current_date)
+                                 current_date, next_week_moc_name)
     for email in email_list:
         send_email_stub(email)
     return email_list
 
 
 def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df,
-                    current_date: datetime.date = None):
+                    current_date: datetime.date = None, next_week_moc_name: str =
+                    None):
     # next_week_engineers_schedule_csv = next_week_engineers_schedule_df.to_csv()
     email_list = []
     for index, engineer_row in next_week_engineers_df.iterrows():
@@ -42,6 +44,8 @@ def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df,
         email_content += "Your service days are: " + \
                          service_days + "\n"
         email_content += "Total number of days: " + str(num_of_service_days) + "\n"
+        if next_week_moc_name is not None:
+            email_content += next_week_moc_name + "\n"
         email_content += EMAIL_END
         # print(service_days)
         # print(email_content)

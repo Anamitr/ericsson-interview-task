@@ -6,9 +6,8 @@ CURRENT_YEAR = datetime.date.today().year
 
 
 def get_date_stub(year, month, day):
-    # today_date = datetime.date.today() - datetime.timedelta(days=13)
-    today_date = datetime.datetime(year, month, day)
-    return today_date
+    current_date = datetime.datetime(year, month, day)
+    return current_date
 
 
 def get_today_date():

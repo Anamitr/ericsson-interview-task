@@ -6,8 +6,6 @@ from email_send import send_notifications
 
 NOTIFICATION_WEEK_DAY = 'Monday'
 
-# get_date_stub()
-
 # unmerge_excel_input_file()
 print("--- 24/7 support - upcoming shift notifier ---")
 # current_date = get_today_date()
