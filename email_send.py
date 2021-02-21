@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 from date_utils import WEEK_DAYS
 from email_model import EmailModel
@@ -14,15 +15,18 @@ EMAIL_END = "\nBest regards,\nAdmin"
 def send_notifications(next_week_engineers_schedule_df: pd.DataFrame,
                        next_week_moc_schedule_df: pd.DataFrame,
                        next_week_engineers_df: pd.DataFrame,
-                       next_week_moc_df: pd.DataFrame):
+                       next_week_moc_df: pd.DataFrame,
+                       current_date: datetime.date = None):
     email_list = generate_emails(next_week_engineers_df,
-                                 next_week_engineers_schedule_df)
+                                 next_week_engineers_schedule_df,
+                                 current_date)
     for email in email_list:
         send_email_stub(email)
     return email_list
 
 
-def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df):
+def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df,
+                    current_date: datetime.date = None):
     # next_week_engineers_schedule_csv = next_week_engineers_schedule_df.to_csv()
     email_list = []
     for index, engineer_row in next_week_engineers_df.iterrows():
@@ -31,8 +35,12 @@ def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df):
         engineer_name = engineer_row['Name']
         service_days, num_of_service_days = get_service_days(engineer_name,
                                                              next_week_engineers_schedule_df)
-        email_content = EMAIL_BEGINNING + "Your service days are: " + \
-                        service_days + "\n"
+        email_content = EMAIL_BEGINNING
+        if current_date is not None:
+            email_content += "Week starts " + (current_date + datetime.timedelta(7)) \
+                .strftime("%d/%m/%Y") + "\n"
+        email_content += "Your service days are: " + \
+                         service_days + "\n"
         email_content += "Total number of days: " + str(num_of_service_days) + "\n"
         email_content += EMAIL_END
         # print(service_days)

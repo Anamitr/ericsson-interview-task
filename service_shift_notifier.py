@@ -11,7 +11,7 @@ NOTIFICATION_WEEK_DAY = 'Monday'
 # unmerge_excel_input_file()
 print("--- 24/7 support - upcoming shift notifier ---")
 # current_date = get_today_date()
-current_date = get_date_stub()
+current_date = get_date_stub(2021, 2, 8)
 
 print("Today is", WEEK_DAYS[current_date.weekday()])
 
@@ -29,7 +29,8 @@ if current_date.weekday() == WEEK_DAYS.index(NOTIFICATION_WEEK_DAY):
 
     email_list = send_notifications(next_week_engineers_schedule_df,
                                     next_week_moc_schedule_df,
-                                    next_week_engineers_df, next_week_moc_df)
+                                    next_week_engineers_df, next_week_moc_df,
+                                    current_date)
 
 
 else:

@@ -5,13 +5,9 @@ WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
 CURRENT_YEAR = datetime.date.today().year
 
 
-def get_date_stub():
+def get_date_stub(year, month, day):
     # today_date = datetime.date.today() - datetime.timedelta(days=13)
-    today_date = datetime.datetime(2021, 2, 8)
-    # x = datetime.datetime.now()
-    # x2 = datetime.date.today()
-    # x3 = x2 - datetime.timedelta(days=30)
-    # print(x3)
+    today_date = datetime.datetime(year, month, day)
     return today_date
 
 
