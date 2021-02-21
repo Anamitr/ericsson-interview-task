@@ -61,7 +61,8 @@ def get_next_week_engineers_and_moc(next_week_engineers_schedule_df: pd.DataFram
     next_week_moc_name = get_next_week_moc_name(next_week_moc_schedule_df)
     next_week_engineers_df = engineer_df.loc[
         engineer_df['Name'].isin(next_week_engineer_name_list)]
-    next_week_moc_schedule_df = moc_info_df[moc_info_df['Name'] == next_week_moc_name]
+    next_week_moc_schedule_df = moc_info_df[
+        moc_info_df['Name'] == next_week_moc_name]
     return next_week_engineers_df, next_week_moc_schedule_df
 
 
@@ -76,16 +77,18 @@ print("Today is", WEEK_DAYS[current_date.weekday()])
 if current_date.weekday() == WEEK_DAYS.index(NOTIFICATION_WEEK_DAY):
     print("Sending notifications")
     moc_info_df, engineer_df, moc_calendar_df, engineer_calendar_df = import_data()
-    next_week_engineers_schedule_df = get_next_week_engineers_schedule_df(current_date,
-                                                                          engineer_calendar_df)
+    next_week_engineers_schedule_df = get_next_week_engineers_schedule_df(
+        current_date,
+        engineer_calendar_df)
     next_week_moc_schedule_df = get_next_week_moc_schedule_df(current_date,
                                                               moc_calendar_df)
 
     next_week_engineers_df, next_week_moc_df = get_next_week_engineers_and_moc(
         next_week_engineers_schedule_df, next_week_moc_schedule_df)
 
-    send_notifications(next_week_engineers_schedule_df, next_week_moc_schedule_df,
-                       next_week_engineers_df, next_week_moc_df)
+    email_list = send_notifications(next_week_engineers_schedule_df,
+                                    next_week_moc_schedule_df,
+                                    next_week_engineers_df, next_week_moc_df)
 
 
 else:
