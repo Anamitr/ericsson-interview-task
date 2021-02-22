@@ -36,6 +36,15 @@ date format:
 python service_shift_notifier.py --date-stub=2021-02-08
 ```
 
+#### Email sending simulation
+Setup debuggin email server. On this console you will observe sending emails:
+```bash
+python -m smtpd -n -c DebuggingServer localhost:1025
+```
+Run script with ```-s``` or ```--simulate-email-send``` flag. Example:
+```bash
+python service_shift_notifier.py -d 2021-02-08 --simulate-email-send
+```
 ### Script execution description
 ####Data import
 

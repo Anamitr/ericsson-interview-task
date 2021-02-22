@@ -10,15 +10,18 @@ from email_send_simulation import simulate_sending_mails
 
 NOTIFICATION_WEEK_DAY = 'Monday'
 HELP_TEXT = "--- 24/7 support - upcoming shift notifier ---\n" \
-    "-h, --help\t\t\tDisplay help\n" \
-    "-u, --unmerge-cells\t\tPerform unmerging cells.\n" \
+            "-h, --help\t\t\tDisplay help\n" \
+            "-u, --unmerge-cells\t\tPerform unmerging cells.\n" \
             "\t\t\t\tConverts .xlsx file to .xls and unmerges cells\n" \
-    "-d, --date-stub\t\t\tSet date stub for testing purposes\n"
+            "-d, --date-stub\t\t\tSet date stub for testing purposes\n" \
+            "-s, --simulate-email-send\t\tSend simulated emails to debugging STMP " \
+            "server" \
+            "\t\t\t\tFirst, setup STMP server with: python -m smtpd -n -c DebuggingServer localhost:1025"
 
 full_cmd_arguments = sys.argv
 argument_list = full_cmd_arguments[1:]
-short_options = "hd:u"
-long_options = ["date-stub=", "unmerge-cells"]
+short_options = "hd:us"
+long_options = ["help", "date-stub=", "unmerge-cells", "simulate-email-send"]
 try:
     arguments, values = getopt.getopt(argument_list, short_options, long_options)
 except getopt.error as err:
@@ -27,6 +30,7 @@ except getopt.error as err:
 
 date_stub_string = None
 current_date = None
+should_simulate_email_sending = False
 for current_argument, current_value in arguments:
     if current_argument in ("-d", "--date-stub"):
         print("Setting date stub:", current_value)
@@ -35,6 +39,9 @@ for current_argument, current_value in arguments:
         print("Performing unmerging cells")
         unmerge_excel_input_file()
         sys.exit(0)
+    elif current_argument in ("-s", "--simulate-email-send"):
+        print("Will simulate email sending to debugging STMP server")
+        should_simulate_email_sending = True
     elif current_argument in ("-h", "--help"):
         print(HELP_TEXT)
         sys.exit(0)
@@ -69,6 +76,7 @@ if current_date.weekday() == WEEK_DAYS.index(NOTIFICATION_WEEK_DAY) or \
                                     next_week_moc_schedule_df,
                                     next_week_engineers_df, next_week_moc_df,
                                     current_date)
-    simulate_sending_mails(email_list)
+    if should_simulate_email_sending:
+        simulate_sending_mails(email_list)
 else:
     print("It's not a day for sending notification, which is", NOTIFICATION_WEEK_DAY)

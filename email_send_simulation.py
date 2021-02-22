@@ -9,6 +9,7 @@ def simulate_sending_mails(email_list: list):
     if len(email_list) == 0:
         print("No emails to send!")
         return
+    print("Simulating email sending")
     server = smtplib.SMTP(SERVER, PORT)
     for email in email_list:
         message = """\
