@@ -20,6 +20,9 @@ there is simulation with local SMTPD server included.
 * pandas==1.1.3
 * xlrd==1.2.0
 * xlwt==1.3.0
+```bash
+git clone https://github.com/zanran/unMergeExcelCell.git
+```
 
 ### Usage ###
 
