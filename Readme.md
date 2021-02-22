@@ -1,7 +1,7 @@
 # Ericsson Python interview task
 
 This project was created as part of the recruitment process for Internship in
-AI/Machine Learning area (Python) at Ericcson
+AI/Machine Learning area (Python) at Ericsson
 
 Its goal was to automate user notification task concerning scheduled service 
 support days. Input data is grafik.xlsx file. On a given weekday program is 
@@ -21,6 +21,13 @@ To execute every chosen weekday you can setup a cronjob. Example (Monday):
 ```
 Or execute every day and use script ```NOTIFICATION_WEEK_DAY ```variable to 
 set a day.
+
+### Test
+Script can be tested using ```--date-stub```, ```-d``` argument with following 
+date format:
+```bash
+python service_shift_notifier.py --date-stub=2021-02-08
+```
 
 ### Script work description
 ####Data import
