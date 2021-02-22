@@ -5,7 +5,8 @@ from data_import import import_data, unmerge_excel_input_file, \
     get_next_week_engineers_schedule_df, get_next_week_moc_schedule_df, \
     get_next_week_engineers_and_moc
 from date_utils import WEEK_DAYS, get_date_stub, get_today_date
-from email_send import send_notifications
+from email_generation import send_notifications
+from email_send_simulation import simulate_sending_mails
 
 NOTIFICATION_WEEK_DAY = 'Monday'
 HELP_TEXT = "--- 24/7 support - upcoming shift notifier ---\n" \
@@ -68,5 +69,6 @@ if current_date.weekday() == WEEK_DAYS.index(NOTIFICATION_WEEK_DAY) or \
                                     next_week_moc_schedule_df,
                                     next_week_engineers_df, next_week_moc_df,
                                     current_date)
+    simulate_sending_mails(email_list)
 else:
     print("It's not a day for sending notification, which is", NOTIFICATION_WEEK_DAY)

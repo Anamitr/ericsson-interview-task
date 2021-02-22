@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass()
 class EmailModel:
     target_email: str
