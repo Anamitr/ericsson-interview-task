@@ -63,7 +63,7 @@ def get_service_days(engineer_name: str,
     for i, v in engineer_schedule_series.items():
         # print('index: ', i, 'value: ', v)
         if v == 'x':
-            service_date_list.append(WEEK_DAYS[i.to_pydatetime().weekday()])
+            service_date_list.append(WEEK_DAYS[i.weekday()])
     service_days_string = ", ".join(service_date_list)
     return service_days_string, len(service_date_list)
 

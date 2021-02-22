@@ -1,5 +1,6 @@
 import datetime
 import subprocess
+import sys
 
 import numpy as np
 import pandas as pd
@@ -41,7 +42,7 @@ def find_engineer_begin_index(data_df: pd.DataFrame):
 
 
 def load_moc_and_engineers_info(excel_file: pd.ExcelFile):
-    print("Loading moc and engineers info")
+    print("Loading MoC and engineers info")
     meta_info = excel_file.parse(INPUT_SHEET_NAME, header=4, usecols="A:C")
     meta_info.rename(columns={meta_info.columns[1]: "E-mail"}, inplace=True)
 
@@ -134,7 +135,7 @@ def get_next_week_moc_name(next_week_moc_df: pd.DataFrame):
     moc_list = [moc for moc in next_week_moc_df.index]
     if len(moc_list) != 1:
         print("Next week MoC list is not 1! Actual value:", len(moc_list))
-        exit(1)
+        sys.exit(-1)
     else:
         next_week_moc_name = moc_list[0]
     return next_week_moc_name
