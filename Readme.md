@@ -5,11 +5,11 @@ AI/Machine Learning area (Python) at Ericsson
 
 Its goal was to automate user notification task concerning scheduled service 
 support days. Input data is grafik.xlsx file. On a given weekday program is 
-supposed to send emails on appropriate address informing about following week 
+supposed to send emails on appropriate addresses informing about following week 
 service days and their total number.
 
-Script prints emails to be sent and also keeps them available if you use 
-an interactive mode.
+Script prints emails to be sent, writes them to ./out dir and also keeps them 
+available if you use an interactive mode.
 
 As far as I understand configuring email server and actually sending emails 
 wasn't part of the task.
@@ -32,7 +32,7 @@ python service_shift_notifier.py --date-stub=2021-02-08
 ### Script work description
 ####Data import
 
-First job is to unmerge merged cells. Otherwise during import to pandas, this 
+First job is to unmerge merged cells. Otherwise, during import to pandas, their 
 info would be lost.
 File .xls is converted to .xlsx using libreoffice cmd. Unmerging 
 is performed by following external project:
@@ -45,11 +45,12 @@ calendar is extracted.
 
 #### Generating emails
 
-Based on next week's calendar and engineer list, proper email is generated. 
-EmailModel class was created to contain needed information like email target 
-(recipient), title and content. As requested it contains list of weekdays with 
+Based on next week's calendar and engineer list, proper emails are generated. 
+EmailModel class was created to contain required information like email target 
+(recipient), title and content. As requested, it contains list of weekdays with 
 assigned service and their total number.
 
 ### Example output
 
-Example output is quite long, so refer to out/example_out.txt
+Example output is quite long, so refer to out/example_out.txt.
+Also output for 2021-02-08 was included.
