@@ -89,6 +89,5 @@ assigned service and their total number.
 
 ### Example output
 
-Example output is quite long, so refer to out/2021-02-08. Also output for
-2021-02-08 was included.
+Example output is quite long, so refer to out/2021-02-08.
 
