@@ -1,12 +1,13 @@
 import pandas as pd
 import datetime
+from pathlib import Path
 
 from date_utils import WEEK_DAYS
 from email_model import EmailModel
 
 EMAIL_TOPIC = "27/7 support - upcoming shift"
 EMAIL_BEGINNING = "Hi,\n\n" \
-                  "According to the agreeement, You will be part of the 24/7 " \
+                  "According to the agreement, You will be part of the 24/7 " \
                   "Support Team during next week.\n"
 # EMAIL_BEGINNING = ""
 EMAIL_END = "\nBest regards,\nAdmin"
@@ -23,6 +24,7 @@ def send_notifications(next_week_engineers_schedule_df: pd.DataFrame,
                                  current_date, next_week_moc_name)
     for email in email_list:
         send_email_stub(email)
+        write_to_file(email, current_date)
     return email_list
 
 
@@ -39,7 +41,8 @@ def generate_emails(next_week_engineers_df, next_week_engineers_schedule_df,
                                                              next_week_engineers_schedule_df)
         email_content = EMAIL_BEGINNING
         if current_date is not None:
-            email_content += "Week starts " + (current_date + datetime.timedelta(7)) \
+            email_content += "Week starts at " + (current_date + datetime.timedelta(
+                7)) \
                 .strftime("%d/%m/%Y") + "\n"
         email_content += "Your service days are: " + \
                          service_days + "\n"
@@ -72,3 +75,14 @@ def send_email_stub(email: EmailModel):
     print("Sending email to:", email.target_email)
     print("With topic:", email.email_topic)
     print("With content:\n", email.email_content, end="\n\n")
+
+
+def write_to_file(email: EmailModel, current_date: datetime.date):
+    save_path = "./out/" + current_date.strftime("%Y-%m-%d") + "/"
+    Path(save_path).mkdir(parents=True, exist_ok=True)
+
+    file = open(save_path + email.target_email + ".txt", "w")
+    file.write(email.get_file_write_string())
+    file.close()
+
+    pass
