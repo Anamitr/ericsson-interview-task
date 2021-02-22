@@ -15,6 +15,13 @@ As far as I understand configuring email server and actually sending emails
 wasn't part of the task.
 
 ### Usage
+####Data preprocess
+Before actual notification service is run, input file must be preprocessed. Use 
+following flag:
+```bash
+python service_shift_notifier.py --unmerge-cells
+```
+#### Periodical execution
 To execute every chosen weekday you can setup a cronjob. Example (Monday):
 ```bash
 0 7 * * 1 python path/to/script/service_shift_notifer.py
@@ -22,14 +29,14 @@ To execute every chosen weekday you can setup a cronjob. Example (Monday):
 Or execute every day and use script ```NOTIFICATION_WEEK_DAY ```variable to 
 set a day.
 
-### Test
+#### Test
 Script can be tested using ```--date-stub```, ```-d``` argument with following 
 date format:
 ```bash
 python service_shift_notifier.py --date-stub=2021-02-08
 ```
 
-### Script work description
+### Script execution description
 ####Data import
 
 First job is to unmerge merged cells. Otherwise, during import to pandas, their 

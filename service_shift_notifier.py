@@ -8,11 +8,16 @@ from date_utils import WEEK_DAYS, get_date_stub, get_today_date
 from email_send import send_notifications
 
 NOTIFICATION_WEEK_DAY = 'Monday'
+HELP_TEXT = "--- 24/7 support - upcoming shift notifier ---\n" \
+    "-h, --help\t\t\tDisplay help\n" \
+    "-u, --unmerge-cells\t\tPerform unmerging cells.\n" \
+            "\t\t\t\tConverts .xlsx file to .xls and unmerges cells\n" \
+    "-d, --date-stub\t\t\tSet date stub for testing purposes\n"
 
 full_cmd_arguments = sys.argv
 argument_list = full_cmd_arguments[1:]
-short_options = "d:"
-long_options = ["date-stub="]
+short_options = "hd:u"
+long_options = ["date-stub=", "unmerge-cells"]
 try:
     arguments, values = getopt.getopt(argument_list, short_options, long_options)
 except getopt.error as err:
@@ -25,6 +30,13 @@ for current_argument, current_value in arguments:
     if current_argument in ("-d", "--date-stub"):
         print("Setting date stub:", current_value)
         date_stub_string = current_value
+    elif current_argument in ("-u", "--unmerge-cells"):
+        print("Performing unmerging cells")
+        unmerge_excel_input_file()
+        sys.exit(0)
+    elif current_argument in ("-h", "--help"):
+        print(HELP_TEXT)
+        sys.exit(0)
 
 if date_stub_string is not None:
     date_stub = datetime.datetime.strptime(date_stub_string, "%Y-%m-%d")
@@ -33,7 +45,6 @@ if date_stub_string is not None:
 else:
     current_date = get_today_date()
 
-# unmerge_excel_input_file()
 print("--- 24/7 support - upcoming shift notifier ---")
 
 print("Today is", WEEK_DAYS[current_date.weekday()], current_date.strftime(
