@@ -21,9 +21,9 @@ there is simulation with local SMTPD server included.
 * xlrd==1.2.0
 * xlwt==1.3.0
 
-### Usage
+### Usage ###
 
-#### Data preprocess
+#### Data preprocess ####
 
 Before actual notification service is run, input file must be preprocessed. Use
 following flag:
@@ -66,9 +66,9 @@ Run script with ```-s``` or ```--simulate-email-send``` flag. Example:
 python service_shift_notifier.py -d 2021-02-08 --simulate-email-send
 ```
 
-### Script execution description
+### Script execution description ###
 
-#### Data import
+#### Data import ####
 
 First job is to unmerge merged cells. Otherwise, during import to pandas, their info
 would be lost. File .xls is converted to .xlsx using libreoffice cmd. Unmerging is
